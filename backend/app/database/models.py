@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Text
 
 from app.database.connection import Base
 
@@ -7,8 +7,16 @@ class LeadDB(Base):
     __tablename__ = "leads"
 
     id = Column(Integer, primary_key=True, index=True)
+
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
     company = Column(String, nullable=False)
     website = Column(String, nullable=True)
     job_title = Column(String, nullable=True)
+
+    industry = Column(String, nullable=True)
+    employee_count = Column(Integer, nullable=True)
+    location = Column(String, nullable=True)
+    founded_year = Column(Integer, nullable=True)
+    technologies = Column(Text, nullable=True)
+    revenue_range = Column(String, nullable=True)
