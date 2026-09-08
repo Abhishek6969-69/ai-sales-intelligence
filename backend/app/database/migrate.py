@@ -12,6 +12,7 @@ columns = [
     ("revenue_range", "VARCHAR"),
 ]
 
+
 with engine.begin() as connection:
     for column, data_type in columns:
         connection.execute(
@@ -20,5 +21,3 @@ with engine.begin() as connection:
                 f"ADD COLUMN IF NOT EXISTS {column} {data_type}"
             )
         )
-
-print("Lead enrichment columns added successfully!")

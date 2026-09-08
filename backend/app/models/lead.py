@@ -1,10 +1,9 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional
+from pydantic import BaseModel
 
 
 class Lead(BaseModel):
     name: str
-    email: EmailStr
+    email: str
     company: str
-    website: Optional[str] = None
-    job_title: Optional[str] = None
+    website: str | None = None
+    job_title: str | None = None

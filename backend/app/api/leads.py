@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from app.database.connection import SessionLocal
 from app.database.models import LeadDB
 from app.models.lead import Lead
+from app.agents.enrichment_agent import enrich_lead
+
 
 router = APIRouter()
 
@@ -30,6 +32,27 @@ def create_lead(lead: Lead, db: Session = Depends(get_db)):
     db.add(new_lead)
     db.commit()
     db.refresh(new_lead)
+
+    enriched_lead = enrich_lead(new_lead.id)
+
+    if enriched_lead:
+        return {
+            "message": "Lead created and enriched successfully",
+            "lead": {
+                "id": enriched_lead.id,
+                "name": enriched_lead.name,
+                "email": enriched_lead.email,
+                "company": enriched_lead.company,
+                "website": enriched_lead.website,
+                "job_title": enriched_lead.job_title,
+                "industry": enriched_lead.industry,
+                "employee_count": enriched_lead.employee_count,
+                "location": enriched_lead.location,
+                "founded_year": enriched_lead.founded_year,
+                "technologies": enriched_lead.technologies,
+                "revenue_range": enriched_lead.revenue_range
+            }
+        }
 
     return {
         "message": "Lead created successfully",
